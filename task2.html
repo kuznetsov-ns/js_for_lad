@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2022 by kuznetsov-ns (http://jsbin.com/johekon/1/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+<style id="jsbin-css">
+.focused {
+    outline: solid 2px red;
+}
+</style>
+</head>
+<body>
+<form id="formElement">
+    One: <input type="text"><br>
+    Two: <input type="text">
+</form>
+<script id="jsbin-javascript">
+var formElement = document.forms['formElement'];
+
+// formElement.onfocus = function(evt) {
+//     var activeElement = formElement.querySelector('.focused');
+// 	if (activeElement) {
+// 	    activeElement.classList.remove('focused');
+//     }
+//     evt.target.classList.add('focused');
+// };
+
+// formElement.onblur = function(evt) {
+// 	var activeElement = formElement.querySelector('.focused');
+//     if (activeElement) {
+//      	activeElement.classList.remove('focused');   
+//     }
+// };
+
+formElement.addEventListener("focus", (evt) => {
+  var activeElement = formElement.querySelector('.focused');
+  if (activeElement) {
+    activeElement.classList.remove('focused');
+  }
+  evt.target.classList.add('focused');
+}, true);
+
+formElement.addEventListener("blur", (evt) => {
+  var activeElement = formElement.querySelector('.focused');
+  if (activeElement) {
+    activeElement.classList.remove('focused');
+  }
+}, true);
+</script>
+</body>
+</html>

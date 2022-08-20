@@ -147,8 +147,9 @@ function theGame() {
     let arrOfCdBot = [ 0, 0, 0 ]; // кулдауны для противника
     let arrOfCdPlayer = [ 0, 0, 0 ]; // кулдауны для игрока
 
-    while(mage.maxHealth >= 0 && monster.maxHealth >= 0) {
-        let monsterTurn = botTurn(arrOfCdBot[0], arrOfCdBot[1], arrOfCdBot[2]);
+    while(mage.maxHealth >= 0 && monster.maxHealth >= 0) { // игра не закончится, пока хп одного из игроков не будет 0 или отрицательным
+        //let monsterTurn = botTurn(arrOfCdBot[0], arrOfCdBot[1], arrOfCdBot[2]);
+        let monsterTurn = botTurn(...arrOfCdBot);
         if (monsterTurn != 0) {
             if (monsterTurn === 1 && arrOfCdBot[1] % monster.moves[1].cooldown === 0) {
                 arrOfCdBot[1]++;
@@ -166,7 +167,8 @@ function theGame() {
             monster.moves[monsterTurn].name + ' (' + monster.moves[monsterTurn].physicalDmg +
             ' Phys DMG, ' + monster.moves[monsterTurn].magicDmg + ' Magic DMG)');
         console.log('Ваша очередь делать ход!');
-        availableSkillsMage(arrOfCdPlayer[0], arrOfCdPlayer[1], arrOfCdPlayer[2]);
+        //availableSkillsMage(arrOfCdPlayer[0], arrOfCdPlayer[1], arrOfCdPlayer[2]);
+        availableSkillsMage(...arrOfCdPlayer);
         let input;
         while (1) { // делаем корректным инпут числа
             input = readLineSync.question('Выберите приём (число): ');

@@ -105,22 +105,34 @@ function botTurn(cd_1, cd_2, cd_3) { // рандом абилки для про�
 
 function availableSkillsMage(cd_1, cd_2, cd_3) { // отображение доступных скиллов для игрока
     console.log('Доступные приёмы:\n');
-    console.log('1 - ' + mage.moves[0].name + ' (Phys DMG = ' + mage.moves[0].physicalDmg + ', Magic DMG block = ' + mage.moves[0].magicArmorPercents + '%)');
+    console.log('1 - ' + mage.moves[0].name + ' (Phys DMG = ' +
+        mage.moves[0].physicalDmg + ', Magic DMG block = ' +
+        mage.moves[0].magicArmorPercents + '%)');
     if (cd_1 === 0 || cd_1 % mage.moves[1].cooldown === 0) {
-        console.log('2 - ' + mage.moves[1].name + ' (Phys DMG = ' + mage.moves[1].physicalDmg + ')');
+        console.log('2 - ' + mage.moves[1].name +
+            ' (Phys DMG = ' + mage.moves[1].physicalDmg + ')');
     } else {
-        console.log('2 - ' + mage.moves[1].name + ' (Phys DMG = ' + mage.moves[1].physicalDmg + ') в кулдауне ещё ' + (4 - (cd_1 % 4)) + ' хода');
+        console.log('2 - ' + mage.moves[1].name + ' (Phys DMG = ' +
+            mage.moves[1].physicalDmg + ') в кулдауне ещё ' +
+            (4 - (cd_1 % 4)) + ' хода');
     }
     if (cd_2 === 0 || cd_2 % mage.moves[2].cooldown === 0) {
-        console.log('3 - ' + mage.moves[2].name + ' (Magic DMG = ' + mage.moves[2].magicDmg + ')');
+        console.log('3 - ' + mage.moves[2].name + ' (Magic DMG = ' +
+            mage.moves[2].magicDmg + ')');
     } else {
-        console.log('3 - ' + mage.moves[2].name + ' (Magic DMG = ' + mage.moves[2].magicDmg + ') в кулдауне ещё ' + (3 - (cd_2 % 3)) + ' хода');
+        console.log('3 - ' + mage.moves[2].name + ' (Magic DMG = ' +
+            mage.moves[2].magicDmg + ') в кулдауне ещё ' +
+            (3 - (cd_2 % 3)) + ' хода');
     }
     if (cd_3 === 0 || cd_3 % mage.moves[3].cooldown === 0) {
-        console.log('4 - ' + mage.moves[3].name + ' (Phys DMG block = ' + mage.moves[3].physicArmorPercents + ', Magic DMG block = ' + mage.moves[3].magicArmorPercents + ')');
+        console.log('4 - ' + mage.moves[3].name + ' (Phys DMG block = ' +
+            mage.moves[3].physicArmorPercents + ', Magic DMG block = ' +
+            mage.moves[3].magicArmorPercents + ')');
     } else {
-        console.log('4 - ' + mage.moves[3].name + ' (Phys DMG block = ' + mage.moves[3].physicArmorPercents + ', Magic DMG block = ' + mage.moves[3].magicArmorPercents +
-            ') в кулдауне ещё ' + (4 - (cd_3 % 4)) + ' хода');
+        console.log('4 - ' + mage.moves[3].name + ' (Phys DMG block = ' +
+            mage.moves[3].physicArmorPercents + ', Magic DMG block = ' +
+            mage.moves[3].magicArmorPercents + ') в кулдауне ещё ' +
+            (4 - (cd_3 % 4)) + ' хода');
     }    
 }
 

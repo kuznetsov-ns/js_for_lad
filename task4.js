@@ -119,7 +119,8 @@ function availableSkillsMage(cd_1, cd_2, cd_3) { // отображение до�
     if (cd_3 === 0 || cd_3 % mage.moves[3].cooldown === 0) {
         console.log('4 - ' + mage.moves[3].name + ' (Phys DMG block = ' + mage.moves[3].physicArmorPercents + ', Magic DMG block = ' + mage.moves[3].magicArmorPercents + ')');
     } else {
-        console.log('4 - ' + mage.moves[3].name + ' (Phys DMG block = ' + mage.moves[3].physicArmorPercents + ', Magic DMG block = ' + mage.moves[3].magicArmorPercents + ') в кулдауне ещё ' + (4 - (cd_3 % 4)) + ' хода');
+        console.log('4 - ' + mage.moves[3].name + ' (Phys DMG block = ' + mage.moves[3].physicArmorPercents + ', Magic DMG block = ' + mage.moves[3].magicArmorPercents +
+            ') в кулдауне ещё ' + (4 - (cd_3 % 4)) + ' хода');
     }    
 }
 
@@ -149,7 +150,9 @@ function theGame() {
             }
         }
 
-        console.log(monster.name + ' собирается скастовать ' + monster.moves[monsterTurn].name + ' (' + monster.moves[monsterTurn].physicalDmg + ' Phys DMG, ' + monster.moves[monsterTurn].magicDmg + ' Magic DMG)');
+        console.log(monster.name + ' собирается скастовать ' +
+            monster.moves[monsterTurn].name + ' (' + monster.moves[monsterTurn].physicalDmg +
+            ' Phys DMG, ' + monster.moves[monsterTurn].magicDmg + ' Magic DMG)');
         console.log('Ваша очередь делать ход!');
         availableSkillsMage(arrOfCdPlayer[0], arrOfCdPlayer[1], arrOfCdPlayer[2]);
         let input;
@@ -179,7 +182,7 @@ function theGame() {
                 if (arrOfCdPlayer[0] % mage.moves[1].cooldown != 0) {
                     arrOfCdPlayer[0]++;
                 }
-                if (input === 4 && arrOfCdPlayer[2] % mage.moves[3].cooldown != 0) {
+                if (arrOfCdPlayer[2] % mage.moves[3].cooldown != 0) {
                     arrOfCdPlayer[2]++;
                 }
             } else if (input === 4 && arrOfCdPlayer[2] % mage.moves[3].cooldown === 0) {
@@ -199,9 +202,13 @@ function theGame() {
             }
         }
 
-        mage.maxHealth = mage.maxHealth - overalDMG(monster.moves[monsterTurn].physicalDmg, monster.moves[monsterTurn].magicDmg, mage.moves[input - 1].physicArmorPercents, mage.moves[input - 1].magicArmorPercents);
+        mage.maxHealth = mage.maxHealth - overalDMG(monster.moves[monsterTurn].physicalDmg,
+            monster.moves[monsterTurn].magicDmg, mage.moves[input - 1].physicArmorPercents,
+            mage.moves[input - 1].magicArmorPercents);
         console.log('Здоровье %s: %d', mage.name, mage.maxHealth);
-        monster.maxHealth = monster.maxHealth - overalDMG(mage.moves[input - 1].physicalDmg, mage.moves[input - 1].magicDmg, monster.moves[monsterTurn].physicArmorPercents, monster.moves[monsterTurn].magicArmorPercents);
+        monster.maxHealth = monster.maxHealth - overalDMG(mage.moves[input - 1].physicalDmg,
+            mage.moves[input - 1].magicDmg, monster.moves[monsterTurn].physicArmorPercents,
+            monster.moves[monsterTurn].magicArmorPercents);
         console.log('Здоровье %s: %d', monster.name, monster.maxHealth);       
     }
     console.log("GG WP!");

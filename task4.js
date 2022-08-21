@@ -71,17 +71,20 @@ const mage = {
 }
 
 function selectDifficulty() { // функция выбора сложности
-    let input = readLineSync.question('Выберите уровень сложности\n1 - ЛЕГКИЙ\n2 - СРЕДНИЙ\n3 - СЛОЖНЫЙ\n');
-    input = Number(input);
-    if (input === 1) {
-        return 20;
-    } else if (input === 2) {
-        return 15;
-    } else if (input === 3) {
-        return 10;
-    } else {
-        console.log('Ошибка ввода! Выбрано значение по умолчаниию - ЛЕГКИЙ');
-        return 20;
+    while (true) {
+        let input = readLineSync.question('Выберите уровень сложности\n1 - ЛЕГКИЙ\n2 - СРЕДНИЙ\n3 - СЛОЖНЫЙ\n');
+        input = Number(input);
+        switch (input) {
+            case 1:
+                return 20;
+            case 2:
+                return 15;
+            case 3:
+                return 10;
+            default:
+                console.log('Ошибка ввода!');
+                break;
+        }
     }
 }
 
@@ -128,10 +131,14 @@ function theGame() {
     while(mage.maxHealth >= 0 && monster.maxHealth >= 0) { // игра не закончится, пока хп одного из игроков не будет 0 или отрицательным
         let monsterTurn = botTurn(...arrOfCdBot);
         if (monsterTurn != 0) {
-            if (monsterTurn === 1 && arrOfCdBot[1] % monster.moves[1].cooldown === 0) {
-                arrOfCdBot[1]++;
-            } else if (monsterTurn === 2 && arrOfCdBot[2] % monster.moves[2].cooldown === 0) {
-                arrOfCdBot[2]++;
+            if (arrOfCdBot[monsterTurn] % monster.moves[monsterTurn].cooldown === 0)
+            arrOfCdBot[monsterTurn]++;
+            for (let i = 1; i < arrOfCdBot.length; i++) {
+                if (i != monsterTurn) {
+                    if (arrOfCdBot[i] % monster.moves[i].cooldown != 0) {
+                        arrOfCdBot[i]++;
+                    }
+                }
             }
         } else if (monsterTurn === 0) {
             for (let i = 1; i < 3; i++) {

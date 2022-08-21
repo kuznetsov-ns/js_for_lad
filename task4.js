@@ -101,35 +101,17 @@ function botTurn(...arrOfCd) { // рандом абилки для против�
 
 function availableSkillsMage(...cd) { // отображение доступных скиллов для игрока
     console.log('Доступные приёмы:\n');
-    console.log('1 - ' + mage.moves[0].name + ' (Phys DMG = ' +
-        mage.moves[0].physicalDmg + ', Magic DMG block = ' +
-        mage.moves[0].magicArmorPercents + '%)');
-    if (cd[0] === 0 || cd[0] % mage.moves[1].cooldown === 0) {
-        console.log('2 - ' + mage.moves[1].name +
-            ' (Phys DMG = ' + mage.moves[1].physicalDmg + ')');
-    } else {
-        console.log('2 - ' + mage.moves[1].name + ' (Phys DMG = ' +
-            mage.moves[1].physicalDmg + ') в кулдауне ещё ' +
-            (4 - (cd[0] % 4)) + ' хода');
+    for (let i = 0; i < mage.moves.length; i++) {
+        if ((cd[i] % mage.moves[i].cooldown) === 0 || cd[i] === 0) {
+            console.log((i + 1) + ' - ' + mage.moves[i].name +
+                ' (Phys DMG = ' + mage.moves[i].physicalDmg + ', Magic DMG = ' + mage.moves[i].magicDmg +
+                ', Phys DMG block = ' + mage.moves[i].physicArmorPercents + ', Magic DMG block = ' +
+                mage.moves[i].magicArmorPercents +')');
+            } else {
+                console.log((i + 1) + ' - ' + mage.moves[i].name + ' в кулдауне ещё ' +
+                    (mage.moves[i].cooldown - (cd[i] % mage.moves[i].cooldown)) + ' хода');
+        }
     }
-    if (cd[1] === 0 || cd[1] % mage.moves[2].cooldown === 0) {
-        console.log('3 - ' + mage.moves[2].name + ' (Magic DMG = ' +
-            mage.moves[2].magicDmg + ')');
-    } else {
-        console.log('3 - ' + mage.moves[2].name + ' (Magic DMG = ' +
-            mage.moves[2].magicDmg + ') в кулдауне ещё ' +
-            (3 - (cd[1] % 3)) + ' хода');
-    }
-    if (cd[2] === 0 || cd[2] % mage.moves[3].cooldown === 0) {
-        console.log('4 - ' + mage.moves[3].name + ' (Phys DMG block = ' +
-            mage.moves[3].physicArmorPercents + ', Magic DMG block = ' +
-            mage.moves[3].magicArmorPercents + ')');
-    } else {
-        console.log('4 - ' + mage.moves[3].name + ' (Phys DMG block = ' +
-            mage.moves[3].physicArmorPercents + ', Magic DMG block = ' +
-            mage.moves[3].magicArmorPercents + ') в кулдауне ещё ' +
-            (4 - (cd[2] % 4)) + ' хода');
-    }    
 }
 
 function overalDMG(physDMG, mgDMG, physArmr, mgArmr) { // формула урона
@@ -141,10 +123,9 @@ function theGame() {
     mage.maxHealth = selectDifficulty(); // выбираем сложность
 
     let arrOfCdBot = [ 0, 0, 0 ]; // кулдауны для противника
-    let arrOfCdPlayer = [ 0, 0, 0 ]; // кулдауны для игрока
+    let arrOfCdPlayer = [ 0, 0, 0, 0 ]; // кулдауны для игрока
 
     while(mage.maxHealth >= 0 && monster.maxHealth >= 0) { // игра не закончится, пока хп одного из игроков не будет 0 или отрицательным
-        //let monsterTurn = botTurn(arrOfCdBot[0], arrOfCdBot[1], arrOfCdBot[2]);
         let monsterTurn = botTurn(...arrOfCdBot);
         if (monsterTurn != 0) {
             if (monsterTurn === 1 && arrOfCdBot[1] % monster.moves[1].cooldown === 0) {
@@ -162,52 +143,31 @@ function theGame() {
         console.log(monster.name + ' собирается скастовать ' +
             monster.moves[monsterTurn].name + ' (' + monster.moves[monsterTurn].physicalDmg +
             ' Phys DMG, ' + monster.moves[monsterTurn].magicDmg + ' Magic DMG)');
+            
         console.log('Ваша очередь делать ход!');
-        //availableSkillsMage(arrOfCdPlayer[0], arrOfCdPlayer[1], arrOfCdPlayer[2]);
         availableSkillsMage(...arrOfCdPlayer);
+
         let input;
         while (1) { // делаем корректным инпут числа
             input = readLineSync.question('Выберите приём (число): ');
             input = Number(input);
             if (input < 1 || input > 4 || !(Number(input))) {
                 console.log('Введено некорректное значение, повторите попытку');
-            } else if (arrOfCdPlayer[input - 2] % mage.moves[input - 1].cooldown != 0 && input != 1) {
+            } else if (arrOfCdPlayer[input - 1] % mage.moves[input - 1].cooldown != 0 && input != 1) {
                 console.log('Выбраный скилл в кулдауне, выберете другой!');
             } else {
                 break;
             }
         }
 
-        if (input != 1) {
-            if (input === 2 && arrOfCdPlayer[0] % mage.moves[1].cooldown === 0) {
-                arrOfCdPlayer[0]++;
-                if (arrOfCdPlayer[1] % mage.moves[2].cooldown != 0) {
-                    arrOfCdPlayer[1]++;
-                }
-                if (arrOfCdPlayer[2] % mage.moves[3].cooldown != 0) {
-                    arrOfCdPlayer[2]++;
-                }
-            } else if (input === 3 && arrOfCdPlayer[1] % mage.moves[2].cooldown === 0) {
-                arrOfCdPlayer[1]++;
-                if (arrOfCdPlayer[0] % mage.moves[1].cooldown != 0) {
-                    arrOfCdPlayer[0]++;
-                }
-                if (arrOfCdPlayer[2] % mage.moves[3].cooldown != 0) {
-                    arrOfCdPlayer[2]++;
-                }
-            } else if (input === 4 && arrOfCdPlayer[2] % mage.moves[3].cooldown === 0) {
-                arrOfCdPlayer[2]++;
-                if (arrOfCdPlayer[0] % mage.moves[1].cooldown != 0) {
-                    arrOfCdPlayer[0]++;
-                }
-                if (arrOfCdPlayer[1] % mage.moves[2].cooldown != 0) {
-                    arrOfCdPlayer[1]++;
-                }
-            }
-        } else if (input === 1) {
-            for (let i = 0; i < 3; i++) {
-                if (arrOfCdPlayer[i] % mage.moves[i + 1].cooldown != 0) {
-                    arrOfCdPlayer[i]++;
+        if (input) {
+            if (arrOfCdPlayer[input - 1] % mage.moves[input - 1].cooldown === 0)
+                arrOfCdPlayer[input - 1]++;
+            for (let i = 1; i < arrOfCdPlayer.length; i++) {
+                if (i != (input - 1)) {
+                    if (arrOfCdPlayer[i] % mage.moves[i].cooldown != 0) {
+                        arrOfCdPlayer[i]++;
+                    }
                 }
             }
         }

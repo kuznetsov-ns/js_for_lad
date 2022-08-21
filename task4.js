@@ -215,10 +215,12 @@ function theGame() {
         mage.maxHealth = mage.maxHealth - overalDMG(monster.moves[monsterTurn].physicalDmg,
             monster.moves[monsterTurn].magicDmg, mage.moves[input - 1].physicArmorPercents,
             mage.moves[input - 1].magicArmorPercents);
+        mage.maxHealth = mage.maxHealth.toFixed(2);
         console.log('Здоровье %s: %d', mage.name, mage.maxHealth);
         monster.maxHealth = monster.maxHealth - overalDMG(mage.moves[input - 1].physicalDmg,
             mage.moves[input - 1].magicDmg, monster.moves[monsterTurn].physicArmorPercents,
             monster.moves[monsterTurn].magicArmorPercents);
+        monster.maxHealth = monster.maxHealth.toFixed(2);
         console.log('Здоровье %s: %d', monster.name, monster.maxHealth);  
     }
     console.log("GG WP!");

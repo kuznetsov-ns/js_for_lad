@@ -91,11 +91,7 @@ function randBotTurn(min, max) { // функция рандома
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
-function botTurn(cd_1, cd_2, cd_3) { // рандом абилки для противника
-    let arrOfCd = new Array();
-    arrOfCd.push(cd_1);
-    arrOfCd.push(cd_2);
-    arrOfCd.push(cd_3);
+function botTurn(...arrOfCd) { // рандом абилки для противника
     while (true) {
         let rand = randBotTurn(0, 3);
         if (arrOfCd[rand] % monster.moves[rand].cooldown === 0 || arrOfCd[rand] === 0)
@@ -103,28 +99,28 @@ function botTurn(cd_1, cd_2, cd_3) { // рандом абилки для про�
     }
 }
 
-function availableSkillsMage(cd_1, cd_2, cd_3) { // отображение доступных скиллов для игрока
+function availableSkillsMage(...cd) { // отображение доступных скиллов для игрока
     console.log('Доступные приёмы:\n');
     console.log('1 - ' + mage.moves[0].name + ' (Phys DMG = ' +
         mage.moves[0].physicalDmg + ', Magic DMG block = ' +
         mage.moves[0].magicArmorPercents + '%)');
-    if (cd_1 === 0 || cd_1 % mage.moves[1].cooldown === 0) {
+    if (cd[0] === 0 || cd[0] % mage.moves[1].cooldown === 0) {
         console.log('2 - ' + mage.moves[1].name +
             ' (Phys DMG = ' + mage.moves[1].physicalDmg + ')');
     } else {
         console.log('2 - ' + mage.moves[1].name + ' (Phys DMG = ' +
             mage.moves[1].physicalDmg + ') в кулдауне ещё ' +
-            (4 - (cd_1 % 4)) + ' хода');
+            (4 - (cd[0] % 4)) + ' хода');
     }
-    if (cd_2 === 0 || cd_2 % mage.moves[2].cooldown === 0) {
+    if (cd[1] === 0 || cd[1] % mage.moves[2].cooldown === 0) {
         console.log('3 - ' + mage.moves[2].name + ' (Magic DMG = ' +
             mage.moves[2].magicDmg + ')');
     } else {
         console.log('3 - ' + mage.moves[2].name + ' (Magic DMG = ' +
             mage.moves[2].magicDmg + ') в кулдауне ещё ' +
-            (3 - (cd_2 % 3)) + ' хода');
+            (3 - (cd[1] % 3)) + ' хода');
     }
-    if (cd_3 === 0 || cd_3 % mage.moves[3].cooldown === 0) {
+    if (cd[2] === 0 || cd[2] % mage.moves[3].cooldown === 0) {
         console.log('4 - ' + mage.moves[3].name + ' (Phys DMG block = ' +
             mage.moves[3].physicArmorPercents + ', Magic DMG block = ' +
             mage.moves[3].magicArmorPercents + ')');
@@ -132,7 +128,7 @@ function availableSkillsMage(cd_1, cd_2, cd_3) { // отображение до�
         console.log('4 - ' + mage.moves[3].name + ' (Phys DMG block = ' +
             mage.moves[3].physicArmorPercents + ', Magic DMG block = ' +
             mage.moves[3].magicArmorPercents + ') в кулдауне ещё ' +
-            (4 - (cd_3 % 4)) + ' хода');
+            (4 - (cd[2] % 4)) + ' хода');
     }    
 }
 
@@ -223,9 +219,14 @@ function theGame() {
         monster.maxHealth = monster.maxHealth - overalDMG(mage.moves[input - 1].physicalDmg,
             mage.moves[input - 1].magicDmg, monster.moves[monsterTurn].physicArmorPercents,
             monster.moves[monsterTurn].magicArmorPercents);
-        console.log('Здоровье %s: %d', monster.name, monster.maxHealth);       
+        console.log('Здоровье %s: %d', monster.name, monster.maxHealth);  
     }
     console.log("GG WP!");
+    if (mage.maxHealth > 0) {
+        console.log('Евстафий одолел Лютого!');
+    } else {
+        console.log('Лютый победил Евстафия!');
+    }
 }
 
 theGame();
